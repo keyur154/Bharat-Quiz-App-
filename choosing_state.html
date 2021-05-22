@@ -1,0 +1,145 @@
+<html>
+ <head>
+    <title>Bharat Quiz App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+  <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+
+<!--Designing code is written below-->
+  <style type="text/css">
+
+body{
+    background: linear-gradient(to bottom left, #fc5c00 0%, white 50%, green 100%);
+}
+
+#heading{
+    color: blue;
+    font-weight: bolder;
+    font-style: italic;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-variant: inherit;
+    font-size: 28px;
+    width: 100%;
+    box-shadow: 5px 5px 18px grey;
+    margin-top: 0;
+}
+
+#welcome_heading{
+    text-align: center;
+    font-weight: bold;
+    color: purple;
+    padding-right: 10px;
+}
+
+#printing_speech{
+    line-height: 2;
+    text-align: center;
+    width: 700px;
+    font-weight: bold;
+}
+
+.GoLoginPage{
+    float: right;
+}
+
+.copy_right_footer{
+    bottom: 0;
+    line-height: 3;
+    width: 100%;
+    text-align: center;
+    background-color: yellow;
+    color: green;
+    font-size: 19px;
+    font-weight: bold;
+}
+  </style>
+
+ </head>
+
+ <body>
+     <center>
+         <h1 class="btn btn-default" id="heading">Bharat Quiz App</h1>
+         <br><br>
+         <button class="btn btn-primary GoLoginPage" onclick="go_to_login_page()" style="font-size: 18px;">Go to Login Page</button>
+         <br><br>
+         <h3 id="welcome_heading">Say Hello! click on the start button to say anything.</h3>
+         <br>
+         <img src="map-of-india-political.jpg" style="width: 670px; height: 730px;">
+         <br><br>
+         <textarea id="printing_speech" class="form-control" readonly="true"></textarea>
+         <br><br>
+         <button class="btn btn-danger" onclick="start()" style="font-size: 18px;">Start</button>
+         <br><br>
+         <div class="copy_right_footer">
+            Developed by Keyur Chitrada
+         </div>
+     </center>
+
+<!--Scripts are written below-->   
+    <script>
+
+var SpeechRecognition=window.webkitSpeechRecognition;
+
+var recognition= new SpeechRecognition();
+
+function go_to_login_page() {
+    window.location="index.html";
+}
+
+function start() {
+  document.getElementById("printing_speech").innerHTML="";
+  recognition.start();
+}
+
+recognition.onresult= function(event) {
+  console.log(event);
+  
+  var Content=event.results[0][0].transcript;
+  document.getElementById("printing_speech").innerHTML=Content;
+  console.log(Content);
+
+  if(Content=="hello") {
+    var synth=window.speechSynthesis;
+    var speak_data="Hello "+localStorage.getItem("name_of_user")+"! Welcome to Bharat Quiz App! Say the name of which state or union territory(only Delhi) you want to do a quiz and know the facts.";
+    var utterThis= new SpeechSynthesisUtterance(speak_data);
+    synth.speak(utterThis);
+    document.getElementById("welcome_heading").innerHTML="Hello "+localStorage.getItem("name_of_user")+"!&#128516; Welcome to Bharat Quiz App! Say the name of which state or union territory(only Delhi) you want to do a quiz and know the facts.";
+  }
+
+  else if(Content=="Andhra Pradesh"){
+      var synth=window.speechSynthesis;
+      var speak_data="Taking you to Andhra Pradesh Quiz and Facts.";
+      var utterThis= new SpeechSynthesisUtterance(speak_data);
+      synth.speak(utterThis);
+      document.getElementById("welcome_heading").innerHTML="Taking you to Andhra Pradesh Quiz and Facts.";
+      console.log("Taking you to Andhra Pradesh Quiz and Facts.");
+      window.location="http://127.0.0.1:5500/Andhra%20Pradesh/AndhraPradesh.html";
+  }
+
+  else if(Content=="Arunachal Pradesh"){
+    var synth=window.speechSynthesis;
+    var speak_data="Taking you to Arunachal Pradesh Quiz and Facts.";
+    var utterThis= new SpeechSynthesisUtterance(speak_data);
+    synth.speak(utterThis);
+    document.getElementById("welcome_heading").innerHTML="Taking you to Arunachal Pradesh Quiz and Facts.";
+    console.log("Taking you to Arunachal Pradesh Quiz and Facts.");
+    window.location="http://127.0.0.1:5500/Arunachal%20Pradesh/ArunachalPradesh.html";
+  }
+
+  else{
+    document.getElementById("welcome_heading").innerHTML="Didn't get it, please say again.";
+    var synth=window.speechSynthesis;
+    var speak_data="Didn't get it, please say again.";
+    var utterThis= new SpeechSynthesisUtterance(speak_data);
+    synth.speak(utterThis);
+  }
+}
+    </script>
+
+ </body>
+
+</html>

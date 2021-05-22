@@ -1,0 +1,523 @@
+<html>
+ <head>
+    <title>Bharat Quiz App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+  <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+
+<!--Designing code is written below-->
+<style type="text/css">
+
+body{
+    background: linear-gradient(to bottom left, #fc5c00 0%, white 50%, green 100%);
+}
+
+#heading{
+    color: blue;
+    font-weight: bolder;
+    font-style: italic;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-variant: inherit;
+    font-size: 28px;
+    width: 100%;
+    box-shadow: 5px 5px 18px grey;
+    margin-top: 0;
+}
+
+#printing_speech{
+    border-radius: 6px;
+    text-align: center;
+    width: 350px;
+    height: 40px;
+    font-weight: bold;
+}
+
+.copy_right_footer{
+    bottom: 0;
+    line-height: 3;
+    width: 100%;
+    text-align: center;
+    background-color: yellow;
+    color: green;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+#welcome_heading{
+    text-align: center;
+    font-weight: bold;
+    color: purple;
+    padding-right: 10px;
+}
+
+#welcome_heading2{
+    text-align: center;
+    font-weight: bold;
+    color: blue;
+    padding-right: 10px;
+}
+
+#welcome_heading2{
+    text-align: center;
+    font-weight: bold;
+    color: blue;
+    padding-right: 10px;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+.row {margin: 0 -5px;}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+canvas{
+    border: 8px solid blue;
+    border-radius: 6px;
+}
+</style>
+
+ </head>
+
+ <body>
+     <center>
+         <h1 class="btn btn-default" id="heading" onclick="view_results()">Bharat Quiz App</h1>
+         <br><br>
+         <button class="btn btn-primary" onclick="go_to_choosing_page()" style="font-size: 18px; float: right;">Go to Choosing Quiz or Facts Page</button>
+         <br><br>
+         <h3 id="welcome_heading">Click on the Bharat Quiz App button on the top.</h3>
+         <br>
+         <div class="row">
+            <div class="column">
+              <div class="card">Questions</div>
+            </div>
+            <div class="column">
+              <div class="card">Your Answers</div>
+            </div>
+            <div class="column">
+              <div class="card">Correct Answers</div>
+            </div>
+            <div class="column">
+              <div class="card">Tick and Cross Marks</div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q1. What is the capital of Arunachal Pradesh according to 2021?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer1"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer1"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji1"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q2. Which is the official language of Arunachal Pradesh?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer2"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer2"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji2"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q3. Name the country which shares international borders with state in the west.</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer3"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer3"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji3"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q4. Which is the state flower of Arunachal Pradesh?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer4"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer4"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji4"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q5. Which is the state fruit of Arunachal Pradesh?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer5"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer5"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji5"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q6. Which state is to the south of Arunachal Pradesh?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer6"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer6"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji6"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q7. Which is the official state animal of Arunachal Pradesh?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer7"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer7"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji7"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q8. Which is the state bird of Arunachal Pradesh?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer8"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer8"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji8"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q9. Which is the state sport of Arunachal Pradesh?</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer9"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer9"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji9"></div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="column">
+              <div class="card">Q10. Total number of districts in Arunachal Pradesh</div>
+            </div>
+            <div class="column">
+              <div class="card" id="your_answer10"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="correct_answer10"></div>
+            </div>
+            <div class="column">
+              <div class="card" id="emoji10"></div>
+            </div>
+          </div>
+          <br><br>
+          <h3 id="welcome_heading2" onclick="congratulations()">Click on me.</h3>
+          <br><br>
+          <div id="canvas"></div>
+          <br><br>
+          <div class="copy_right_footer">
+            Developed by Keyur Chitrada
+          </div>
+        </center>
+
+<!--Scripts are written below-->
+<script>
+var SpeechRecognition=window.webkitSpeechRecognition;
+
+var recognition= new SpeechRecognition();
+
+score=0;
+
+function go_to_choosing_page() {
+  window.location="http://127.0.0.1:5500/Arunachal%20Pradesh/ArunachalPradesh.html";
+}
+function view_results() {
+    var Content="";
+    var your_answer1=localStorage.getItem("Content2", Content);
+    var correct_answer1="Itanagar";
+
+    if(your_answer1==correct_answer1) {
+       score=score+1;
+       document.getElementById("your_answer1").innerHTML=your_answer1;
+       document.getElementById("correct_answer1").innerHTML=correct_answer1;
+       document.getElementById("emoji1").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer1").innerHTML=your_answer1;
+        document.getElementById("correct_answer1").innerHTML=correct_answer1;
+        document.getElementById("emoji1").innerHTML="&#10060;"
+    }
+
+    var your_answer2=localStorage.getItem("answer2", Content);
+    var correct_answer2="English";
+
+    if(your_answer2==correct_answer2) {
+        score=score+1;
+        document.getElementById("your_answer2").innerHTML=your_answer2;
+        document.getElementById("correct_answer2").innerHTML=correct_answer2;
+        document.getElementById("emoji2").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer2").innerHTML=your_answer2;
+        document.getElementById("correct_answer2").innerHTML=correct_answer2;
+        document.getElementById("emoji2").innerHTML="&#10060;"
+    }
+
+    var your_answer3=localStorage.getItem("Answer2", Content);
+    var correct_answer3="Bhutan";
+
+    if(your_answer3==correct_answer3) {
+        score=score+1;
+        document.getElementById("your_answer3").innerHTML=your_answer3;
+        document.getElementById("correct_answer3").innerHTML=correct_answer3;
+        document.getElementById("emoji3").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer3").innerHTML=your_answer3;
+        document.getElementById("correct_answer3").innerHTML=correct_answer3;
+        document.getElementById("emoji3").innerHTML="&#10060;"
+    }
+
+    var your_answer4=localStorage.getItem("Real_Answer2", Content);
+    var correct_answer4="foxtail orchid";
+
+    if(your_answer4==correct_answer4) {
+        score=score+1;
+        document.getElementById("your_answer4").innerHTML=your_answer4;
+        document.getElementById("correct_answer4").innerHTML=correct_answer4;
+        document.getElementById("emoji4").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer4").innerHTML=your_answer4;
+        document.getElementById("correct_answer4").innerHTML=correct_answer4;
+        document.getElementById("emoji4").innerHTML="&#10060;"
+    }
+
+    var your_answer5=localStorage.getItem("Real_answer2", Content);
+    var correct_answer5="jackfruit";
+
+    if(your_answer5==correct_answer5) {
+        score=score+1;
+        document.getElementById("your_answer5").innerHTML=your_answer5;
+        document.getElementById("correct_answer5").innerHTML=correct_answer5;
+        document.getElementById("emoji5").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer5").innerHTML=your_answer5;
+        document.getElementById("correct_answer5").innerHTML=correct_answer5;
+        document.getElementById("emoji5").innerHTML="&#10060;"
+    }
+
+    var your_answer6=localStorage.getItem("real_Answer2", Content);
+    var correct_answer6="Assam";
+
+    if(your_answer6==correct_answer6) {
+        score=score+1;
+        document.getElementById("your_answer6").innerHTML=your_answer6;
+        document.getElementById("correct_answer6").innerHTML=correct_answer6;
+        document.getElementById("emoji6").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer6").innerHTML=your_answer6;
+        document.getElementById("correct_answer6").innerHTML=correct_answer6;
+        document.getElementById("emoji6").innerHTML="&#10060;"
+    }
+
+    var your_answer7=localStorage.getItem("RA2", Content);
+    var correct_answer7="Mithun";
+
+    if(your_answer7==correct_answer7) {
+        score=score+1;
+        document.getElementById("your_answer7").innerHTML=your_answer7;
+        document.getElementById("correct_answer7").innerHTML=correct_answer7;
+        document.getElementById("emoji7").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer7").innerHTML=your_answer7;
+        document.getElementById("correct_answer7").innerHTML=correct_answer7;
+        document.getElementById("emoji7").innerHTML="&#10060;"
+    }
+
+    var your_answer8=localStorage.getItem("ra2", Content);
+    var correct_answer8="hornbill";
+
+    if(your_answer8==correct_answer8) {
+        score=score+1;
+        document.getElementById("your_answer8").innerHTML=your_answer8;
+        document.getElementById("correct_answer8").innerHTML=correct_answer8;
+        document.getElementById("emoji8").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer8").innerHTML=your_answer8;
+        document.getElementById("correct_answer8").innerHTML=correct_answer8;
+        document.getElementById("emoji8").innerHTML="&#10060;"
+    }
+
+    var your_answer9=localStorage.getItem("RealA2", Content);
+    var correct_answer9="archery";
+
+    if(your_answer9==correct_answer9) {
+        score=score+1;
+        document.getElementById("your_answer9").innerHTML=your_answer9;
+        document.getElementById("correct_answer9").innerHTML=correct_answer9;
+        document.getElementById("emoji9").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer9").innerHTML=your_answer9;
+        document.getElementById("correct_answer9").innerHTML=correct_answer9;
+        document.getElementById("emoji9").innerHTML="&#10060;"
+    }
+
+    var your_answer10=localStorage.getItem("RAnswer2", Content);
+    var correct_answer10="25";
+
+    if(your_answer10==correct_answer10) {
+        score=score+1;
+        document.getElementById("your_answer10").innerHTML=your_answer10;
+        document.getElementById("correct_answer10").innerHTML=correct_answer10;
+        document.getElementById("emoji10").innerHTML="&#9989;"
+    }
+    else{
+        document.getElementById("your_answer10").innerHTML=your_answer10;
+        document.getElementById("correct_answer10").innerHTML=correct_answer10;
+        document.getElementById("emoji10").innerHTML="&#10060;"
+    }
+
+    if(score==10) {
+      var synth=window.speechSynthesis;
+      var speak_data="Congratulations! you got 10/10 marks! scroll down to see the surprise.";
+      var utterThis= new SpeechSynthesisUtterance(speak_data);
+      synth.speak(utterThis);
+      document.getElementById("welcome_heading").innerHTML="Congratulations! you got 10/10 marks! scroll down to see the surprise.";
+    }
+    else if(score<5) {
+      var synth=window.speechSynthesis;
+      var speak_data="Good try! you got "+score+"out of 10 marks! scroll down to see the surprise.";
+      var utterThis= new SpeechSynthesisUtterance(speak_data);
+      synth.speak(utterThis);
+      document.getElementById("welcome_heading").innerHTML="Good try! you got "+score+"/10 marks! scroll down to see the surprise.";;
+    }
+    else if(score>=5) {
+      var synth=window.speechSynthesis;
+      var speak_data="Excellent! you got "+score+" out of 10 marks! scroll down to see the surprise.";
+      var utterThis= new SpeechSynthesisUtterance(speak_data);
+      synth.speak(utterThis);
+      document.getElementById("welcome_heading").innerHTML="Excellent! you got "+score+"/10 marks! scroll down to see the surprise.";;
+    }
+}
+
+function congratulations() {
+  var synth=window.speechSynthesis;
+  var speak_data="Congratulations! you got the crown for participating!";
+  var utterThis= new SpeechSynthesisUtterance(speak_data);
+  synth.speak(utterThis);
+  document.getElementById("welcome_heading2").innerHTML="Congratulations! you got the crown for participating! &#x1f389;";
+}
+
+function preload() {
+    hat=loadImage("31748.jpg");
+}
+
+right_eyeX="";
+right_eyeY="";
+function setup() {
+    canvas=createCanvas(700, 600);
+    canvas.parent("canvas");
+    video=createCapture(VIDEO);
+    video.hide();
+
+    poseNet=ml5.poseNet(video, modelLoaded);
+    poseNet.on('pose', gotPoses);
+}
+
+function gotPoses(results) {
+    if(results.length>0) {
+      console.log(results);
+      right_eyeX=results[0].pose.rightEye.x-45;
+      right_eyeY=results[0].pose.rightEye.y-100;
+      console.log("Right Eye X= "+right_eyeX);
+      console.log("Right Eye Y= "+right_eyeY);
+    }
+}
+
+function modelLoaded() {
+    console.log("Model Is Initialized");
+}
+
+function draw() {
+    image(video, 0, 0, 700, 600);
+    image(hat, right_eyeX, right_eyeY, 200, 100);
+}
+</script>        
+
+    </body>
+
+</html>
